@@ -13,13 +13,16 @@ public class TextTransformer {
     private final String[] transforms;
     private final Map<String, String> abbreviations;
     private final Map<String, String> expansions;
+    private final Map<String, String> Latex;
 
     public TextTransformer(String[] transforms){
         this.transforms = transforms;
         this.abbreviations = new HashMap<>();
         this.expansions = new HashMap<>();
+        this.Latex = new HashMap<>();
         initializeAbbreviations();
         initializeExpansions();
+        initializeLatex();
     }
 
     private void initializeAbbreviations() {
@@ -34,6 +37,19 @@ public class TextTransformer {
         expansions.put("dr", "doktor");
         expansions.put("np.", "na przykład");
         expansions.put("itd.", "i tym podobne");
+    }
+
+    private void initializeLatex() {
+        //Latex.put("\\", "\\textbackslash");
+        Latex.put("&", "\\&");
+        Latex.put("$", "\\$");
+        Latex.put("%", "\\%");
+        Latex.put("#", "\\#");
+        Latex.put("_", "\\_");
+        Latex.put("{", "\\{");
+        Latex.put("}", "\\}");
+        Latex.put("~", "\\~{}");
+        Latex.put("^", "\\^{}");
     }
 
     public String transform(String text){
@@ -66,6 +82,9 @@ public class TextTransformer {
                     break;
                 case "removeduplicates":
                     result = removeDuplicateWords(result);
+                    break;
+                case "latex":
+                    result = TextToLatex(result);
                     break;
             }
         }
@@ -182,6 +201,13 @@ public class TextTransformer {
         Pattern pattern = Pattern.compile("\\b(\\w+)(\\s+\\1)+\\b", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(text);
         return matcher.replaceAll("$1");
+    }
+
+    public String TextToLatex(String input) {
+        for (Map.Entry<String, String> entry : Latex.entrySet()) {
+            input = input.replace(entry.getKey(), entry.getValue());
+        }
+        return input;
     }
     
 }
