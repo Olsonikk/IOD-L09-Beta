@@ -9,13 +9,22 @@ import pl.put.poznan.transformer.logic.TextTransformer;
 
 import java.util.Arrays;
 
+/**
+ * Kontroler REST do obsługi zapytań HTTP dla klasycznych transformacji tekstu.
+ */
 @RestController
 @RequestMapping("/classic")
 @CrossOrigin
 public class TextTransformerController {
 
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
-
+    /**
+     * Obsługuje żądanie GET dla transformacji tekstu.
+     *
+     * @param text        Tekst wejściowy, który ma zostać przetworzony.
+     * @param transforms  Lista transformacji do zastosowania na tekście. Jeśli nie podano, domyślną wartością jest "upper".
+     * @return Odpowiedź JSON zawierająca przekształcony tekst lub komunikat błędu.
+     */
     @RequestMapping(path = "/{text}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> get(@PathVariable String text,
                               @RequestParam(value="transforms", defaultValue="upper") String[] transforms) {
