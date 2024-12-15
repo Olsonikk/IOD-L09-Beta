@@ -1,0 +1,43 @@
+@startuml
+class TextTransformerApplication {
+    + main(args: String[]): void
+}
+
+class FormattedTextTransformerController {
+    + postJson(request: TransformRequest): ResponseEntity<String>
+}
+
+class TextTransformer {
+    - transforms: String[]
+    - abbreviations: Map<String, String>
+    - expansions: Map<String, String>
+    - Latex: Map<String, String>
+    + transform(text: String): String
+    + abbreviate(text: String): String
+    + expand(text: String): String
+    + inverse(text: String): String
+    + convertNumbersToText(text: String): String
+    + removeDuplicateWords(text: String): String
+    + TextToLatex(input: String): String
+}
+
+class TextTransformerController {
+    + get(text: String, transforms: String[]): ResponseEntity<String>
+}
+
+class TransformRequest {
+    - text: String
+    - transforms: String[]
+    + getText(): String
+    + setText(text: String): void
+    + getTransforms(): String[]
+    + setTransforms(transforms: String[]): void
+}
+
+TextTransformerApplication --> FormattedTextTransformerController
+FormattedTextTransformerController --> TextTransformer
+TextTransformerController --> TextTransformer
+TextTransformerController --> TransformRequest
+FormattedTextTransformerController --> TransformRequest
+
+@enduml
