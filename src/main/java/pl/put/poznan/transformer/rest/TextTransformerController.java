@@ -10,35 +10,15 @@ import pl.put.poznan.transformer.logic.TextTransformer;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping("/{text}")
+@RequestMapping("/classic")
+@CrossOrigin
 public class TextTransformerController {
 
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
-    @RequestMapping(method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(path = "/{text}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> get(@PathVariable String text,
-                              @RequestParam(value="transforms", defaultValue="uppercase") String[] transforms) {
-
-        logger.debug("Input text: " + text);
-        logger.debug("Transforms: " + Arrays.toString(transforms));
-
-        try {
-            // Tworzenie obiektu TextTransformer
-            TextTransformer transformer = new TextTransformer(transforms);
-
-            // Zwracanie przetworzonego tekstu
-            return ResponseEntity.ok(transformer.transform(text));
-
-        } catch (IllegalArgumentException e) {
-            // Obsługa nieznanej transformacji
-            logger.error("Error: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-    }
-
-    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<String> post(@PathVariable String text,
-                                       @RequestBody String[] transforms) {
+                              @RequestParam(value="transforms", defaultValue="upper") String[] transforms) {
 
         logger.debug("Input text: " + text);
         logger.debug("Transforms: " + Arrays.toString(transforms));
