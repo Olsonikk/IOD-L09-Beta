@@ -1,89 +1,97 @@
-<<<<<<< HEAD
 @startuml
-class TextTransformerApplication {
-    + main(args: String[]): void
+interface TextTransformerInterface {
+    +String transform(String text)
+}
+
+abstract class TextTransformer implements TextTransformerInterface {
+    -TextTransformerInterface transformer
+    +TextTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class UppercaseTransformer extends TextTransformer {
+    +UppercaseTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class LowercaseTransformer extends TextTransformer {
+    +LowercaseTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class CapitalizeTransformer extends TextTransformer {
+    +CapitalizeTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class AbbreviateTransformer extends TextTransformer {
+    +AbbreviateTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class ExpandTransformer extends TextTransformer {
+    +ExpandTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class InverseTransformer extends TextTransformer {
+    +InverseTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class RemoveDuplicatesTransformer extends TextTransformer {
+    +RemoveDuplicatesTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class LatexTransformer extends TextTransformer {
+    +LatexTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class NumberToTextTransformer extends TextTransformer {
+    +NumberToTextTransformer(TextTransformerInterface transformer)
+    +String transform(String text)
+}
+
+class BaseTransformer implements TextTransformerInterface {
+    +String transform(String text)
+}
+
+class TransformerFactory {
+    +TextTransformerInterface createTransformer(String[] transforms)
 }
 
 class FormattedTextTransformerController {
-    + postJson(request: TransformRequest): ResponseEntity<String>
-}
-
-class TextTransformer {
-    - transforms: String[]
-    - abbreviations: Map<String, String>
-    - expansions: Map<String, String>
-    - Latex: Map<String, String>
-    + transform(text: String): String
-    + abbreviate(text: String): String
-    + expand(text: String): String
-    + inverse(text: String): String
-    + convertNumbersToText(text: String): String
-    + removeDuplicateWords(text: String): String
-    + TextToLatex(input: String): String
+    +ResponseEntity<String> postJson(TransformRequest request)
 }
 
 class TextTransformerController {
-    + get(text: String, transforms: String[]): ResponseEntity<String>
+    +ResponseEntity<String> get(String text, String[] transforms)
 }
 
 class TransformRequest {
-    - text: String
-    - transforms: String[]
-    + getText(): String
-    + setText(text: String): void
-    + getTransforms(): String[]
-    + setTransforms(transforms: String[]): void
+    -String text
+    -String[] transforms
+    +String getText()
+    +void setText(String text)
+    +String[] getTransforms()
+    +void setTransforms(String[] transforms)
 }
 
-TextTransformerApplication --> FormattedTextTransformerController
-FormattedTextTransformerController --> TextTransformer
-TextTransformerController --> TextTransformer
-TextTransformerController --> TransformRequest
+TextTransformerInterface <|-- TextTransformer
+TextTransformer <|-- UppercaseTransformer
+TextTransformer <|-- LowercaseTransformer
+TextTransformer <|-- CapitalizeTransformer
+TextTransformer <|-- AbbreviateTransformer
+TextTransformer <|-- ExpandTransformer
+TextTransformer <|-- InverseTransformer
+TextTransformer <|-- RemoveDuplicatesTransformer
+TextTransformer <|-- LatexTransformer
+TextTransformer <|-- NumberToTextTransformer
+TextTransformerInterface <|.. BaseTransformer
+TransformerFactory --> TextTransformerInterface
 FormattedTextTransformerController --> TransformRequest
-
+FormattedTextTransformerController --> TransformerFactory
+TextTransformerController --> TransformerFactory
 @enduml
-=======
-@startuml
-class TextTransformerApplication {
-    + main(args: String[]): void
-}
-
-class FormattedTextTransformerController {
-    + postJson(request: TransformRequest): ResponseEntity<String>
-}
-
-class TextTransformer {
-    - transforms: String[]
-    - abbreviations: Map<String, String>
-    - expansions: Map<String, String>
-    - Latex: Map<String, String>
-    + transform(text: String): String
-    + abbreviate(text: String): String
-    + expand(text: String): String
-    + inverse(text: String): String
-    + convertNumbersToText(text: String): String
-    + removeDuplicateWords(text: String): String
-    + TextToLatex(input: String): String
-}
-
-class TextTransformerController {
-    + get(text: String, transforms: String[]): ResponseEntity<String>
-}
-
-class TransformRequest {
-    - text: String
-    - transforms: String[]
-    + getText(): String
-    + setText(text: String): void
-    + getTransforms(): String[]
-    + setTransforms(transforms: String[]): void
-}
-
-TextTransformerApplication --> FormattedTextTransformerController
-FormattedTextTransformerController --> TextTransformer
-TextTransformerController --> TextTransformer
-TextTransformerController --> TransformRequest
-FormattedTextTransformerController --> TransformRequest
-
-@enduml
->>>>>>> master
