@@ -17,7 +17,10 @@ import pl.put.poznan.transformer.logic.TextTransformerInterface;
 import pl.put.poznan.transformer.logic.TransformerFactory;
 
 /**
- * Kontroler REST do obsługi zapytań HTTP dla klasycznych transformacji tekstu.
+ * Kontroler REST do obsługi transformacji tekstu za pomocą zapytań GET.
+ * <p>
+ * Klasa umożliwia transformację tekstu podanego w adresie URL,
+ * a transformacje są określane za pomocą parametrów zapytania.
  */
 @RestController
 @RequestMapping("/classic")
@@ -43,6 +46,7 @@ public class TextTransformerController {
         try {
             // Tworzenie dynamicznego łańcucha dekoratorów
             TextTransformerInterface transformer = TransformerFactory.createTransformer(transforms);
+            logger.info("Utworzono transformer");
             String result = transformer.transform(text);
 
             return ResponseEntity.ok(result);
