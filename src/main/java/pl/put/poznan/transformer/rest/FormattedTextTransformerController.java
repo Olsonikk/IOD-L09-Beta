@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.put.poznan.transformer.logic.TextTransformerInterface;
 import pl.put.poznan.transformer.logic.TransformerFactory;
 
+/**
+ * Kontroler REST do obsługi transformacji tekstu z wykorzystaniem zapytań POST.
+ * <p>
+ * Klasa obsługuje żądania HTTP POST, przyjmując dane w formacie JSON
+ * zawierające tekst wejściowy i listę transformacji do zastosowania.
+ */
 @RestController
 @RequestMapping("/formated")
 @CrossOrigin
@@ -37,6 +43,7 @@ public class FormattedTextTransformerController {
         try {
             // Tworzenie dynamicznego łańcucha dekoratorów
             TextTransformerInterface transformer = TransformerFactory.createTransformer(request.getTransforms());
+            logger.info("Utworzono obiekt");
             String result = transformer.transform(request.getText());
 
             String jsonResponse = "{\"transformedText\": \"" + result + "\"}";
