@@ -27,9 +27,20 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
+    # Generowanie dokumentacji Javadoc
+    - name: Generate Javadoc
+      run: mvn -B javadoc:javadoc --file pom.xml
+
     # Zapisanie pliku JAR jako artefakt
     - name: Upload .jar artifact
       uses: actions/upload-artifact@v3
       with:
         name: my-java-app
         path: target/*.jar
+
+    # Zapisanie Javadoc jako artefakt
+    - name: Upload Javadoc artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: javadoc
+        path: target/site/apidocs/
