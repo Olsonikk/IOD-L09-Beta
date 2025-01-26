@@ -27,6 +27,14 @@ import pl.put.poznan.transformer.logic.TransformerFactory;
 @CrossOrigin
 public class TextTransformerController {
 
+
+
+    @RequestMapping("/")
+    public String home() {
+        return "redirect:/index.html";
+    }
+
+
     private static final Logger logger = LoggerFactory.getLogger(TextTransformerController.class);
 
     /**

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Transformer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        textarea, select, button {
+            width: 100%;
+            margin: 1rem 0;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Text Transformer</h1>
+    <label for="inputText">Input Text:</label>
+    <textarea id="inputText" rows="4" placeholder="Enter your text here..."></textarea>
+
+    <label for="transformations">Select Transformations:</label>
+    <select id="transformations" multiple>
+        <option value="upper">Uppercase</option>
+        <option value="lower">Lowercase</option>
+        <option value="capitalize">Capitalize</option>
+        <option value="abbreviate">Abbreviate</option>
+        <option value="expand">Expand</option>
+        <option value="inverse">Inverse</option>
+        <option value="removeduplicates">Remove duplicates</option>
+        <option value="latex">latex format</option>
+        <option value="numbertotext">number to text</option>
+        <!-- Dodaj więcej opcji zgodnie z obsługiwanymi transformacjami -->
+    </select>
+
+    <button onclick="transformText()">Transform</button>
+
+    <h2>Result:</h2>
+    <div id="result" style="background: #f4f4f4; padding: 1rem; border: 1px solid #ccc;"></div>
+</div>
+
+<script>
+    async function transformText() {
+        const inputText = document.getElementById('inputText').value;
+        const transformations = Array.from(document.getElementById('transformations').selectedOptions).map(option => option.value);
+
+        if (!inputText) {
+            alert("Please enter text to transform!");
+            return;
+        }
+
+        const url = `http://localhost:8080/classic/${encodeURIComponent(inputText)}?transforms=${transformations.join(',')}`;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                const error = await response.text();
+                throw new Error(error);
+            }
+            const result = await response.text();
+            document.getElementById('result').innerText = result;
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('result').innerText = "An error occurred: " + error.message;
+        }
+    }
+</script>
+</body>
+</html>
