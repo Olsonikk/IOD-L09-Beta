@@ -9,3 +9,4 @@ Stworzenie aplikacji na zasadzie asystenta, która proponuje zamianę pisowni we
 * Igor Simon 155923
 * Bartłomiej Rudowicz 155993
 * Paweł Kierkosz 155995
+abc
